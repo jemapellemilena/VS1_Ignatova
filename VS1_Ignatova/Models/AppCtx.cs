@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using VS1_Ignatova.Models;
 
 namespace VS1_Ignatova.Models
 {
@@ -10,6 +11,11 @@ namespace VS1_Ignatova.Models
         {
             Database.EnsureCreated();
         }
+        public DbSet<VS1_Ignatova.Models.Category> Category { get; set; } = default!;
+        public DbSet<VS1_Ignatova.Models.Developer> Developer { get; set; } = default!;
+        public DbSet<VS1_Ignatova.Models.Game> Game { get; set; } = default!;
+        public DbSet<VS1_Ignatova.Models.Role> Role { get; set; } = default!;
+        public DbSet<VS1_Ignatova.Models.Story> Story { get; set; } = default!;
 
         /*public DbSet<FormOfStudy> FormsOfStudy { get; set; }
         public DbSet<Specialty> Specialties { get; set; }
