@@ -8,21 +8,24 @@ namespace VS1_Ignatova.Models
         //дополнительные поля для каждого пользователя
         //для преподавателя могут понадобиться данные о ФИО
 
-        [Required(ErrorMessage = "Введите фамилию")]   // сообщение об ошибке при валидации на стороне клиента
-        [Display(Name = "Фамилия")]
-        public string LastName { get; set; }   //отображение Фамилия вместо LastName
+        [Required(ErrorMessage = "Введите логин")]   // сообщение об ошибке при валидации на стороне клиента
+        [Display(Name = "Логин")]
+        public string Login { get; set; }   //отображение Фамилия вместо LastName
 
-        [Required(ErrorMessage = "Введите имя")]
-        [Display(Name = "Имя")]
-        public string FirstName { get; set; }
+        [Required(ErrorMessage = "Введите пароль")]
+        [Display(Name = "Пароль")]
+        public string Password { get; set; }
 
-        [Required(ErrorMessage = "Введите отчество")]
-        [Display(Name = "Отчество")]
-        public string Patronymic { get; set; }
+        [Required(ErrorMessage = "Введите email")]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Display(Name = "Дата регистрации"), DataType(DataType.Date)]
+        public DateTime ReleaseDate { get; set; }
 
 
         //навигационные свойства
-       /* [Required]
-        public ICollection<FormOfStudy> FormsOfStudy { get; set; }*/
+        /* [Required]
+         public ICollection<FormOfStudy> FormsOfStudy { get; set; }*/
     }
 }
