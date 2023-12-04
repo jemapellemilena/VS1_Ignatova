@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VS1_Ignatova.Models
 {
@@ -23,9 +24,13 @@ namespace VS1_Ignatova.Models
         [Display(Name = "Дата регистрации"), DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
 
+        // Навигационные свойства
+        // свойство нужно для более правильного отображения данных в представлениях
+        [ForeignKey("IdRole")]
+        [Display(Name = "Роль пользователя")]
+        public Role Role { get; set; }
 
-        //навигационные свойства
-        /* [Required]
-         public ICollection<FormOfStudy> FormsOfStudy { get; set; }*/
+        [Required]
+        public ICollection<Story> Stories { get; set; }
     }
 }
