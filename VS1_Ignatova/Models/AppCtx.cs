@@ -11,15 +11,14 @@ namespace VS1_Ignatova.Models
         {
             Database.EnsureCreated();
         }
+        public DbSet<VS1_Ignatova.Models.User> User { get; set; } = default!;
         public DbSet<VS1_Ignatova.Models.Category> Category { get; set; } = default!;
         public DbSet<VS1_Ignatova.Models.Developer> Developer { get; set; } = default!;
         public DbSet<VS1_Ignatova.Models.Game> Game { get; set; } = default!;
-        public DbSet<VS1_Ignatova.Models.Role> Role { get; set; } = default!;
         public DbSet<VS1_Ignatova.Models.Story> Story { get; set; } = default!;
 
-        /*public DbSet<FormOfStudy> FormsOfStudy { get; set; }
-        public DbSet<Specialty> Specialties { get; set; }
-
-        public DbSet<Group> Groups { get; set; }*/
+        public DbSet<User> Users { get; set; }
+        public DbSet<Story> Stories { get; set; }
+        public DbSet<Game> Games { get; set; }
     }
 }
