@@ -41,25 +41,25 @@
                             @if (User.Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Role).Select(s => s.Value).Contains("admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Пользователи</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Пользователи</a>
                                 </li>
 
                                 <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Index">Роли</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Index">Роли</a>
                                 </li>
                             }
                         
                             <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">Категории</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Категории</a>
                             </li>
                             <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Game" asp-action="Index">Игры</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Games" asp-action="Index">Игры</a>
                             </li>
                             <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Story" asp-action="Index">История</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Stories" asp-action="Index">История</a>
                             </li>
                             <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Developer" asp-action="Index">Разработчики</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Developers" asp-action="Index">Разработчики</a>
                             </li>
 
                                 <!-- с левой стороны, пользователь видит свой свою почту с выпадающим меню
