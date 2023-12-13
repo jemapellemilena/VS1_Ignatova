@@ -108,28 +108,30 @@ namespace VS1_Ignatova.Controllers
                         return View(model);
                     }
                 }
-               }*/
+                }*/
 
                 var result =
                     await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
-    
+                    // назначение роли "Зарегистрированный пользователь"
+                    await _userManager.AddToRoleAsync(user, "registeredUser");
+
                    return RedirectToAction("Index", "Home");
                 }
-                 // проверяем, принадлежит ли URL приложению
-                 if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-                 {
-                    return Redirect(model.ReturnUrl);
-                 }
-                 else
-                 {
-                    return RedirectToAction("Index", "Home");
-                 }
+                    // проверяем, принадлежит ли URL приложению
+                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+                    {
+                        return Redirect(model.ReturnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
             /*else
-            {
-                ModelState.AddModelError("", "Неправильный логин и (или) пароль");
-            }
+                {
+                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                }
 
             return View(model);*/
         }

@@ -22,7 +22,7 @@ namespace VS1_Ignatova.Models
         public string Email { get; set; }
 
         [Display(Name = "Дата регистрации"), DataType(DataType.Date)]
-        public DateTime ReleaseDate { get; set; }
+        public DateTime? ReleaseDate { get; set; }
 
         // Навигационные свойства
         // свойство нужно для более правильного отображения данных в представлениях
