@@ -2,13 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using VS1_Ignatova.Models;
+using VS1_Ignatova.Models.Enums;
+using VS1_Ignatova.ViewModels.Role;
 
 namespace VS1_Ignatova.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class RolesController : Controller
     {
         private readonly AppCtx _context;
@@ -19,11 +25,47 @@ namespace VS1_Ignatova.Controllers
         }
 
         // GET: Roles
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string code, string name, short? formOfEdu,
+            int page = 1,
+            RoleSortState sortOrder = RoleSortState.CodeAsc)
         {
-              return _context.Role != null ? 
-                          View(await _context.Role.ToListAsync()) :
-                          Problem("Entity set 'AppCtx.Role'  is null.");
+            IdentityUser user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+
+            int pageSize = 15;
+
+            //фильтрация
+            IQueryable<Role> specialties = _context.Roles
+                .Include(s => s.FormOfStudy)                    // связываем специальности с формами обучения
+                .Where(w => w.FormOfStudy.IdUser == user.Id);    // в формах обучения есть поле с внешним ключом пользователя
+
+
+            if (!String.IsNullOrEmpty(code))
+            {
+                specialties = specialties.Where(p => p.RoleUser.Contains(code));
+            }
+
+
+            // сортировка
+            switch (sortOrder)
+            {
+                case RoleSortState.CodeDesc:
+                    specialties = specialties.OrderByDescending(s => s.RoleUser);
+                    break;
+            }
+
+            // пагинация
+            var count = await specialties.CountAsync();
+            var items = await specialties.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            // формируем модель представления
+            IndexRoleViewModel viewModel = new()
+            {
+                PageViewModel = new(count, page, pageSize),
+                SortRoleViewModel = new(sortOrder),
+               /* FilterRoleViewModel = new(code, name, _context.FormsOfStudy.ToList(), formOfEdu),
+                Roles = items*/
+            };
+            return View(viewModel);
         }
 
         // GET: Roles/Details/5

@@ -9,9 +9,9 @@ namespace VS1_Ignatova.Models
         //дополнительные поля для каждого пользователя
         //для преподавателя могут понадобиться данные о ФИО
 
-        [Required(ErrorMessage = "Введите логин")]   // сообщение об ошибке при валидации на стороне клиента
-        [Display(Name = "Логин")]
-        public string Login { get; set; }   //отображение Фамилия вместо LastName
+        [Required(ErrorMessage = "Введите никнейм")]   // сообщение об ошибке при валидации на стороне клиента
+        [Display(Name = "Никнейм")]
+        public string Login { get; set; }   
 
         [Required(ErrorMessage = "Введите пароль")]
         [Display(Name = "Пароль")]
@@ -22,14 +22,11 @@ namespace VS1_Ignatova.Models
         public string Email { get; set; }
 
         [Display(Name = "Дата регистрации"), DataType(DataType.Date)]
-        public DateTime ReleaseDate { get; set; }
+        public DateTime? ReleaseDate { get; set; }
 
         // Навигационные свойства
         // свойство нужно для более правильного отображения данных в представлениях
-        [ForeignKey("IdRole")]
-        [Display(Name = "Роль пользователя")]
-        public Role Role { get; set; }
-
+       
         [Required]
         public ICollection<Story> Stories { get; set; }
     }
