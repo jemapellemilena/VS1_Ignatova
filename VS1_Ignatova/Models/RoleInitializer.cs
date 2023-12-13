@@ -37,5 +37,10 @@ namespace VS1_Ignatova.Models
                 }
             }
         }
+
+        internal static void InitializeAsync(IServiceProvider services)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -10,10 +10,25 @@ builder.Services.AddDbContext<AppCtx>(options =>
 builder.Services.AddIdentity<User, IdentityRole>().AddDefaultTokenProviders()
     .AddEntityFrameworkStores<AppCtx>();
 
+/*builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RoleInitializer", policy =>
+          policy.RequireRole("admin", "registeredUser"));
+});*/
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var userManager = services.GetRequiredService<UserManager<User>>();
+    var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+    RoleInitializer.InitializeAsync(userManager, rolesManager);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

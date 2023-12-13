@@ -50,18 +50,9 @@ namespace VS1_Ignatova.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    // генерация токена для пользователя
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Action(
-                        "ConfirmEmail",
-                        "Account",
-                        new { userId = user.Id, code = code },
-                        protocol: HttpContext.Request.Scheme);
-                   /* EmailService emailService = new EmailService();
-                    await emailService.SendEmailAsync(model.Email, "Confirm your account",
-                        $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>");
-
-                    return View("RegisterConfirmation");*/
+                    // установка куки
+                    await _signInManager.SignInAsync(user, false);
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -104,11 +95,11 @@ namespace VS1_Ignatova.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (ModelState.IsValid)
+            /*if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByNameAsync(model.Email);
 
-               /* if (user != null)
+                if (user != null)
                 {
                     // проверяем, подтвержден ли email
                     if (!await _userManager.IsEmailConfirmedAsync(user))
@@ -116,31 +107,31 @@ namespace VS1_Ignatova.Controllers
                         ModelState.AddModelError(string.Empty, "Вы не подтвердили свой email");
                         return View(model);
                     }
-                }*/
+                }
+               }*/
 
                 var result =
                     await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    // назначение роли "Зарегистрированный пользователь"
-                    await _userManager.AddToRoleAsync(user, "registeredUser");
-
-                    // проверяем, принадлежит ли URL приложению
-                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-                    {
-                        return Redirect(model.ReturnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+    
+                   return RedirectToAction("Index", "Home");
                 }
-                else
-                {
-                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
-                }
+                 // проверяем, принадлежит ли URL приложению
+                 if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+                 {
+                    return Redirect(model.ReturnUrl);
+                 }
+                 else
+                 {
+                    return RedirectToAction("Index", "Home");
+                 }
+            /*else
+            {
+                ModelState.AddModelError("", "Неправильный логин и (или) пароль");
             }
-            return View(model);
+
+            return View(model);*/
         }
 
         [HttpPost]
